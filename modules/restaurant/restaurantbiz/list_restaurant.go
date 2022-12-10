@@ -2,8 +2,8 @@ package restaurantbiz
 
 import (
 	"context"
-	"demo_golang_02/component/common"
-	"demo_golang_02/modules/restaurant/restaurantmodel"
+	"golang_01/component/common"
+	"golang_01/modules/restaurant/restaurantmodel"
 )
 
 type ListRestaurantStore interface {

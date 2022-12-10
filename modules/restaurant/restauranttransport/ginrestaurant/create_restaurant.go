@@ -1,12 +1,12 @@
 package ginrestaurant
 
 import (
-	"demo_golang_02/component"
-	"demo_golang_02/component/common"
-	"demo_golang_02/modules/restaurant/restaurantbiz"
-	"demo_golang_02/modules/restaurant/restaurantmodel"
-	"demo_golang_02/modules/restaurant/restaurantstorage"
 	"github.com/gin-gonic/gin"
+	"golang_01/component"
+	"golang_01/component/common"
+	"golang_01/modules/restaurant/restaurantbiz"
+	"golang_01/modules/restaurant/restaurantmodel"
+	"golang_01/modules/restaurant/restaurantstorage"
 	"net/http"
 )
 

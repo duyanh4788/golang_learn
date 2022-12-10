@@ -2,7 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
-	"demo_golang_02/modules/restaurant/restaurantmodel"
+	"golang_01/modules/restaurant/restaurantmodel"
 )
 
 type CreateRestaurantStore interface {

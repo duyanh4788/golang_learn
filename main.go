@@ -1,9 +1,9 @@
 package main
 
 import (
-	"demo_golang_02/component"
-	"demo_golang_02/modules/restaurant/restauranttransport/ginrestaurant"
 	"github.com/gin-gonic/gin"
+	"golang_01/component"
+	"golang_01/modules/restaurant/restauranttransport/ginrestaurant"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"

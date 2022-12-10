@@ -2,7 +2,7 @@ package restaurantstorage
 
 import (
 	"context"
-	"demo_golang_02/modules/restaurant/restaurantmodel"
+	"golang_01/modules/restaurant/restaurantmodel"
 )
 
 func (s *sqlStore) Create(ctx context.Context, data *restaurantmodel.RestaurantCreate) error {
