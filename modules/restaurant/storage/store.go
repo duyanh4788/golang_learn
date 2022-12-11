@@ -1,6 +1,8 @@
 package restaurantstorage
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type sqlStore struct {
 	db *gorm.DB

@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"golang_01/component"
-	"golang_01/modules/restaurant/restauranttransport/ginrestaurant"
+	"golang_01/modules/restaurant/transport/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
@@ -29,8 +29,11 @@ func main() {
 	{
 		restaurants := v1.Group("/restaurants")
 		{
-			restaurants.POST("", ginrestaurant.CreateRestaurant(appContext))
-			restaurants.GET("", ginrestaurant.ListRestaurant(appContext))
+			restaurants.POST("", restaurantgin.CreateRestaurant(appContext))
+			restaurants.GET("", restaurantgin.ListRestaurant(appContext))
+			restaurants.GET("/:restaurant_id", restaurantgin.FindRestaurant(appContext))
+			restaurants.PUT("/:restaurant_id", restaurantgin.UpdateRestaurant(appContext))
+			restaurants.DELETE("/:restaurant_id", restaurantgin.DeleteRestaurant(appContext))
 		}
 	}
 	router.Run(":3010")

@@ -2,11 +2,11 @@ package restaurantbiz
 
 import (
 	"context"
-	"golang_01/modules/restaurant/restaurantmodel"
+	"golang_01/modules/restaurant/model"
 )
 
 type CreateRestaurantStore interface {
-	Create(ctx context.Context, data *restaurantmodel.RestaurantCreate) error
+	CreateRestaurant(ctx context.Context, data *restaurantmodel.RestaurantCreate) error
 }
 
 type createRestaurantBiz struct {
@@ -22,7 +22,7 @@ func (biz *createRestaurantBiz) CreateRestaurant(ctx context.Context, data *rest
 		return err
 	}
 
-	err := biz.store.Create(ctx, data)
+	err := biz.store.CreateRestaurant(ctx, data)
 
 	return err
 }

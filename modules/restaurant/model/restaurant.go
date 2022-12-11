@@ -2,13 +2,15 @@ package restaurantmodel
 
 import (
 	"errors"
+	"golang_01/component/common"
 	"strings"
 )
 
 type Restaurants struct {
-	Id   int    `json:"id" gorm:"column:id;"`
-	Name string `json:"name" gorm:"column:name;"`
-	Addr string `json:"address" gorm:"column:addr;"`
+	common.SQLModel
+	OwnerId int    `json:"owner_id" gorm:"column:owner_id;"`
+	Name    string `json:"name" gorm:"column:name;"`
+	Addr    string `json:"address" gorm:"column:addr;"`
 }
 
 func (Restaurants) TableName() string {

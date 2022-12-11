@@ -1,12 +1,12 @@
-package ginrestaurant
+package restaurantgin
 
 import (
 	"github.com/gin-gonic/gin"
 	"golang_01/component"
 	"golang_01/component/common"
-	"golang_01/modules/restaurant/restaurantbiz"
-	"golang_01/modules/restaurant/restaurantmodel"
-	"golang_01/modules/restaurant/restaurantstorage"
+	"golang_01/modules/restaurant/biz"
+	"golang_01/modules/restaurant/model"
+	"golang_01/modules/restaurant/storage"
 	"net/http"
 )
 
@@ -29,10 +29,3 @@ func CreateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data, ""))
 	}
 }
-
-//type fakeCreateStore struct{}
-//
-//func (fakeCreateStore) Create(ctx context.Context, data *restaurantmodel.RestaurantCreate) error {
-//	data.Id = 100
-//	return nil
-//}

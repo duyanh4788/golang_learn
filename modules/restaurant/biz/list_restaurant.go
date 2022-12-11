@@ -3,7 +3,7 @@ package restaurantbiz
 import (
 	"context"
 	"golang_01/component/common"
-	"golang_01/modules/restaurant/restaurantmodel"
+	"golang_01/modules/restaurant/model"
 )
 
 type ListRestaurantStore interface {
@@ -30,6 +30,10 @@ func (biz *listRestaurantBiz) ListRestaurant(
 	paging *common.Paging) ([]restaurantmodel.Restaurants, error) {
 
 	result, err := biz.store.ListDataByConditions(ctx, nil, filter, paging)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return result, err
 }
