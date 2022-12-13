@@ -2,6 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
+	"errors"
 	"golang_01/modules/restaurant/model"
 )
 
@@ -28,10 +29,14 @@ func NewUpdateRestaurantBiz(store UpdateRestaurantStore) *updateRestaurantBiz {
 }
 
 func (biz *updateRestaurantBiz) UpdateRestaurant(ctx context.Context, id int, data *restaurantmodel.RestaurantUpdate) error {
-	_, err := biz.store.FindRestaurantWithCondition(ctx, map[string]interface{}{"id": id})
+	restaurant, err := biz.store.FindRestaurantWithCondition(ctx, map[string]interface{}{"id": id})
 
 	if err != nil {
 		return err
+	}
+
+	if restaurant.Status == 0 {
+		return errors.New("restaurant not found")
 	}
 
 	if err := biz.store.UpdateRestaurant(ctx, map[string]interface{}{"id": id}, data); err != nil {

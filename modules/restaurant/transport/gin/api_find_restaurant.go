@@ -24,7 +24,7 @@ func FindRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		data, err := biz.FindRestaurant(c.Request.Context(), id)
 
 		if err != nil {
-			c.JSON(401, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 

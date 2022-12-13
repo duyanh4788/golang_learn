@@ -23,7 +23,7 @@ func UpdateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		}
 
 		if err := c.ShouldBind(&data); err != nil {
-			c.JSON(401, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 

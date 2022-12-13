@@ -12,7 +12,7 @@ func (s *sqlStore) DeleteRestaurant(
 	if err := s.db.
 		Table(restaurantmodel.Restaurants{}.TableName()).
 		Where(cond).
-		Delete(nil).
+		Updates(map[string]interface{}{"status": 0}).
 		Error; err != nil {
 		return err
 	}

@@ -2,6 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
+	"errors"
 	restaurantmodel "golang_01/modules/restaurant/model"
 )
 
@@ -26,6 +27,10 @@ func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*rest
 
 	if err != nil {
 		return nil, err
+	}
+
+	if data.Status == 0 {
+		return nil, errors.New("restaurant not fount")
 	}
 
 	return data, nil

@@ -7,10 +7,10 @@ import (
 )
 
 type Restaurants struct {
-	common.SQLModel
-	OwnerId int    `json:"owner_id" gorm:"column:owner_id;"`
-	Name    string `json:"name" gorm:"column:name;"`
-	Addr    string `json:"address" gorm:"column:addr;"`
+	common.SQLModel `json:",inline"`
+	OwnerId         int    `json:"owner_id" gorm:"column:owner_id;"`
+	Name            string `json:"name" gorm:"column:name;"`
+	Addr            string `json:"address" gorm:"column:addr;"`
 }
 
 func (Restaurants) TableName() string {
