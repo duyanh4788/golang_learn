@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"golang_01/component"
+	"golang_01/middleware"
 	"golang_01/modules/restaurant/transport/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -24,6 +25,7 @@ func main() {
 
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"12.4.27.15"})
+	router.Use(middleware.Recover(appContext))
 
 	v1 := router.Group("/v1")
 	{

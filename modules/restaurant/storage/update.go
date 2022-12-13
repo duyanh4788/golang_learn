@@ -2,6 +2,7 @@ package restaurantstorage
 
 import (
 	"context"
+	"golang_01/component/common"
 	restaurantmodel "golang_01/modules/restaurant/model"
 )
 
@@ -12,7 +13,7 @@ func (s *sqlStore) UpdateRestaurant(
 ) error {
 
 	if err := s.db.Where(conditions).Updates(data).Error; err != nil {
-		return err
+		return common.ErrDB(err)
 	}
 
 	return nil

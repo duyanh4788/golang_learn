@@ -2,7 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
-	"errors"
+	"golang_01/component/common"
 	"golang_01/modules/restaurant/model"
 )
 
@@ -32,15 +32,18 @@ func (biz *updateRestaurantBiz) UpdateRestaurant(ctx context.Context, id int, da
 	restaurant, err := biz.store.FindRestaurantWithCondition(ctx, map[string]interface{}{"id": id})
 
 	if err != nil {
-		return err
+		if err != common.RecordNotFound {
+			return common.ErrCannotFindEntity(restaurantmodel.EntityName, err)
+		}
+		return common.ErrCannotUpdateEntity(restaurantmodel.EntityName, err)
 	}
 
 	if restaurant.Status == 0 {
-		return errors.New("restaurant not found")
+		return common.ErrCannotFindEntity(restaurantmodel.EntityName, err)
 	}
 
 	if err := biz.store.UpdateRestaurant(ctx, map[string]interface{}{"id": id}, data); err != nil {
-		return err
+		return common.ErrCannotUpdateEntity(restaurantmodel.EntityName, err)
 	}
 	return nil
 }

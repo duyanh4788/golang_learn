@@ -1,7 +1,6 @@
 package restaurantgin
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang_01/component"
 	"golang_01/component/common"
@@ -14,18 +13,16 @@ import (
 func DeleteRestaurant(appContext component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("restaurant_id"))
-		fmt.Println(c.Request)
+
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
+			panic(common.ErrInvalidRequest(err))
 		}
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
 		biz := restaurantbiz.NewDeleteRestaurantBiz(store)
 
 		if err := biz.DeleteRestaurant(c.Request.Context(), id); err != nil {
-			c.JSON(401, gin.H{"error": err.Error()})
-			return
+			panic(err)
 		}
 
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(true, "delete success"))

@@ -2,6 +2,7 @@ package restaurantstorage
 
 import (
 	"context"
+	"golang_01/component/common"
 	restaurantmodel "golang_01/modules/restaurant/model"
 )
 
@@ -14,7 +15,7 @@ func (s *sqlStore) DeleteRestaurant(
 		Where(cond).
 		Updates(map[string]interface{}{"status": 0}).
 		Error; err != nil {
-		return err
+		return common.ErrDB(err)
 	}
 
 	return nil
