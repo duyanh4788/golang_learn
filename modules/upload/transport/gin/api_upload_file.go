@@ -6,7 +6,6 @@ import (
 	"golang_01/component"
 	"golang_01/modules/upload/biz"
 	"golang_01/modules/upload/storage"
-	"log"
 	"net/http"
 )
 
@@ -19,7 +18,7 @@ func Upload(appContext component.AppContext) func(ctx *gin.Context) {
 		}
 
 		folder := c.DefaultPostForm("folder", "img")
-		log.Println(folder)
+
 		file, err := fileHeader.Open()
 
 		if err != nil {

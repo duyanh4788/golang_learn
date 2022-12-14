@@ -7,6 +7,8 @@ import (
 	"golang_01/common"
 	"golang_01/component/uploadprovider"
 	"image"
+	_ "image/jpeg"
+	_ "image/png"
 	"io"
 	"log"
 	"path/filepath"
@@ -64,5 +66,5 @@ func getImageDimension(reader io.Reader) (int, int, error) {
 		return 0, 0, err
 	}
 
-	return img.Width , img.Width, nil
+	return img.Width, img.Height, nil
 }
