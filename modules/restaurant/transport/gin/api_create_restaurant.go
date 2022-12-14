@@ -2,8 +2,8 @@ package restaurantgin
 
 import (
 	"github.com/gin-gonic/gin"
+	common2 "golang_01/common"
 	"golang_01/component"
-	"golang_01/component/common"
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/model"
 	"golang_01/modules/restaurant/storage"
@@ -15,7 +15,7 @@ func CreateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		var data restaurantmodel.RestaurantCreate
 
 		if err := c.ShouldBind(&data); err != nil {
-			panic(common.ErrInvalidRequest(err))
+			panic(common2.ErrInvalidRequest(err))
 		}
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
@@ -25,6 +25,6 @@ func CreateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data, ""))
+		c.JSON(http.StatusOK, common2.SimpleSuccessResponse(data, ""))
 	}
 }

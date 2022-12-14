@@ -2,7 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
-	"golang_01/component/common"
+	common2 "golang_01/common"
 	restaurantmodel "golang_01/modules/restaurant/model"
 )
 
@@ -26,14 +26,14 @@ func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*rest
 	data, err := biz.store.FindRestaurantWithCondition(ctx, map[string]interface{}{"id": id})
 
 	if err != nil {
-		if err != common.RecordNotFound {
-			return nil, common.ErrCannotFindEntity(restaurantmodel.EntityName, err)
+		if err != common2.RecordNotFound {
+			return nil, common2.ErrCannotFindEntity(restaurantmodel.EntityName, err)
 		}
-		return nil, common.ErrCannotFindEntity(restaurantmodel.EntityName, err)
+		return nil, common2.ErrCannotFindEntity(restaurantmodel.EntityName, err)
 	}
 
 	if data.Status == 0 {
-		return nil, common.ErrCannotFindEntity(restaurantmodel.EntityName, nil)
+		return nil, common2.ErrCannotFindEntity(restaurantmodel.EntityName, nil)
 	}
 
 	return data, nil

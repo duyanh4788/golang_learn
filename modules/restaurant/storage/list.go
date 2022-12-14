@@ -2,7 +2,7 @@ package restaurantstorage
 
 import (
 	"context"
-	"golang_01/component/common"
+	common2 "golang_01/common"
 	"golang_01/modules/restaurant/model"
 )
 
@@ -10,7 +10,7 @@ func (s *sqlStore) ListDataByConditions(
 	ctx context.Context,
 	conditions map[string]interface{},
 	filter *restaurantmodel.Filter,
-	paging *common.Paging,
+	paging *common2.Paging,
 	moreKeys ...string,
 ) ([]restaurantmodel.Restaurants, error) {
 	offset := (paging.Page - 1) * paging.Limit
@@ -29,7 +29,7 @@ func (s *sqlStore) ListDataByConditions(
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
-		return nil, common.ErrDB(err)
+		return nil, common2.ErrDB(err)
 	}
 
 	if err := db.
@@ -37,7 +37,7 @@ func (s *sqlStore) ListDataByConditions(
 		Limit(paging.Limit).
 		Order("id desc").
 		Find(&data).Error; err != nil {
-		return nil, common.ErrDB(err)
+		return nil, common2.ErrDB(err)
 	}
 
 	return data, nil

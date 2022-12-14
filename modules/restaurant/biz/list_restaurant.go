@@ -2,7 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
-	"golang_01/component/common"
+	common2 "golang_01/common"
 	"golang_01/modules/restaurant/model"
 )
 
@@ -11,7 +11,7 @@ type ListRestaurantStore interface {
 		ctx context.Context,
 		conditions map[string]interface{},
 		filter *restaurantmodel.Filter,
-		paging *common.Paging,
+		paging *common2.Paging,
 		moreKeys ...string,
 	) ([]restaurantmodel.Restaurants, error)
 }
@@ -27,12 +27,12 @@ func NewListRestaurantBiz(store ListRestaurantStore) *listRestaurantBiz {
 func (biz *listRestaurantBiz) ListRestaurant(
 	ctx context.Context,
 	filter *restaurantmodel.Filter,
-	paging *common.Paging) ([]restaurantmodel.Restaurants, error) {
+	paging *common2.Paging) ([]restaurantmodel.Restaurants, error) {
 
 	result, err := biz.store.ListDataByConditions(ctx, nil, filter, paging)
 
 	if err != nil {
-		return nil, common.ErrCannotGetListEntity(restaurantmodel.EntityName, err)
+		return nil, common2.ErrCannotGetListEntity(restaurantmodel.EntityName, err)
 	}
 
 	return result, err

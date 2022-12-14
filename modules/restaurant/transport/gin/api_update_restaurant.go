@@ -2,8 +2,8 @@ package restaurantgin
 
 import (
 	"github.com/gin-gonic/gin"
+	common2 "golang_01/common"
 	"golang_01/component"
-	"golang_01/component/common"
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/model"
 	"golang_01/modules/restaurant/storage"
@@ -18,11 +18,11 @@ func UpdateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		id, err := strconv.Atoi(c.Param("restaurant_id"))
 
 		if err != nil {
-			panic(common.ErrIntenval(err))
+			panic(common2.ErrIntenval(err))
 		}
 
 		if err := c.ShouldBind(&data); err != nil {
-			panic(common.ErrCannotUpdateEntity(restaurantmodel.EntityName, err))
+			panic(common2.ErrCannotUpdateEntity(restaurantmodel.EntityName, err))
 		}
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
@@ -32,6 +32,6 @@ func UpdateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, common.SimpleSuccessResponse(true, "update success"))
+		c.JSON(http.StatusOK, common2.SimpleSuccessResponse(true, "update success"))
 	}
 }

@@ -2,7 +2,7 @@ package restaurantbiz
 
 import (
 	"context"
-	"golang_01/component/common"
+	"golang_01/common"
 	"golang_01/modules/restaurant/model"
 )
 
