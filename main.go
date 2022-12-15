@@ -1,12 +1,8 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"golang_01/component"
 	"golang_01/component/uploadprovider"
-	"golang_01/middleware"
-	"golang_01/modules/restaurant/transport/gin"
-	"golang_01/modules/upload/transport/gin"
+	"golang_01/router"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
@@ -30,31 +26,7 @@ func main() {
 
 	log.Println("Connect to", db)
 
-	if err := runService(db, s3Provider); err != nil {
+	if err := mainrouter.MainServices(db, s3Provider); err != nil {
 		log.Println(err)
 	}
-
-}
-
-func runService(db *gorm.DB, upProvider uploadprovider.UploadProvide) error {
-	appCtx := component.NewAppContext(db, upProvider)
-
-	router := gin.Default()
-	router.SetTrustedProxies([]string{"12.4.27.15"})
-	router.Use(middleware.Recover(appCtx))
-
-	router.POST("/upload", uploadgin.Upload(appCtx))
-
-	v1 := router.Group("/v1")
-	{
-		restaurants := v1.Group("/restaurants")
-		{
-			restaurants.POST("", restaurantgin.CreateRestaurant(appCtx))
-			restaurants.GET("", restaurantgin.ListRestaurant(appCtx))
-			restaurants.GET("/:restaurant_id", restaurantgin.FindRestaurant(appCtx))
-			restaurants.PUT("/:restaurant_id", restaurantgin.UpdateRestaurant(appCtx))
-			restaurants.DELETE("/:restaurant_id", restaurantgin.DeleteRestaurant(appCtx))
-		}
-	}
-	return router.Run(":3010")
 }
