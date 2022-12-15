@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func MainServices(db *gorm.DB, upProvider uploadprovider.UploadProvide) error {
+func MainServices(db *gorm.DB, upProvider uploadprovider.UploadProvider) error {
 	appCtx := component.NewAppContext(db, upProvider)
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"12.4.27.15"})

@@ -7,15 +7,15 @@ import (
 
 type AppContext interface {
 	GetMainDBConnect() *gorm.DB
-	UploadProvider() uploadprovider.UploadProvide
+	UploadProvider() uploadprovider.UploadProvider
 }
 
 type appContext struct {
 	db         *gorm.DB
-	upProvider uploadprovider.UploadProvide
+	upProvider uploadprovider.UploadProvider
 }
 
-func NewAppContext(db *gorm.DB, upProvider uploadprovider.UploadProvide) *appContext {
+func NewAppContext(db *gorm.DB, upProvider uploadprovider.UploadProvider) *appContext {
 	return &appContext{db: db, upProvider: upProvider}
 }
 
@@ -23,6 +23,6 @@ func (ctx *appContext) GetMainDBConnect() *gorm.DB {
 	return ctx.db
 }
 
-func (ctx *appContext) UploadProvider() uploadprovider.UploadProvide {
+func (ctx *appContext) UploadProvider() uploadprovider.UploadProvider {
 	return ctx.upProvider
 }

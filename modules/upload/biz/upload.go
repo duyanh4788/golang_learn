@@ -16,17 +16,16 @@ import (
 	"time"
 )
 
-type CreateImagesStore interface {
-	CreateImage(context context.Context, data *common.Image) error
+type UploadProvider interface {
+	SaveFileUpload(context context.Context, data []byte, dst string) error
 }
 
 type uploadBiz struct {
-	provider uploadprovider.UploadProvide
-	imgStore CreateImagesStore
+	provider uploadprovider.UploadProvider
 }
 
-func NewUploadBiz(provider uploadprovider.UploadProvide, imgStore CreateImagesStore) *uploadBiz {
-	return &uploadBiz{provider: provider, imgStore: imgStore}
+func NewUploadBiz(provider uploadprovider.UploadProvider) *uploadBiz {
+	return &uploadBiz{provider: provider}
 }
 
 func (biz *uploadBiz) Upload(ctx context.Context, data []byte, folder, fileName string) (*common.Image, error) {
@@ -43,9 +42,9 @@ func (biz *uploadBiz) Upload(ctx context.Context, data []byte, folder, fileName 
 	}
 
 	fileExt := filepath.Ext(fileName)
-	fileName = fmt.Sprintf("%d%s", time.Now().Nanosecond(), fileExt)
+	fileName = fmt.Sprintf("%d%s", time.Now().UnixNano(), fileExt)
 
-	img, err := biz.provider.SaveFileUpload(ctx, data, fmt.Sprintf("%s%s", folder, fileName))
+	img, err := biz.provider.SaveFileUpload(ctx, data, fmt.Sprintf("%s/%s", folder, fileName))
 
 	if err != nil {
 		return nil, common.ErrIntenval(err)

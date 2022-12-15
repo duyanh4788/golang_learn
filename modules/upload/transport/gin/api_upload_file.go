@@ -5,7 +5,6 @@ import (
 	"golang_01/common"
 	"golang_01/component"
 	"golang_01/modules/upload/biz"
-	"golang_01/modules/upload/storage"
 	"net/http"
 )
 
@@ -33,8 +32,8 @@ func Upload(appContext component.AppContext) func(ctx *gin.Context) {
 			panic(common.ErrInvalidRequest(err))
 		}
 
-		imgStore := uploadstorage.NewSQLStore(appContext.GetMainDBConnect())
-		biz := uploadbiz.NewUploadBiz(appContext.UploadProvider(), imgStore)
+		//imgStore := uploadstorage.NewSQLStore(appContext.UploadProvider())
+		biz := uploadbiz.NewUploadBiz(appContext.UploadProvider())
 
 		img, err := biz.Upload(c.Request.Context(), dataBytes, folder, fileHeader.Filename)
 

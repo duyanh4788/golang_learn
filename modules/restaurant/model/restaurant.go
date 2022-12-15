@@ -2,19 +2,19 @@ package restaurantmodel
 
 import (
 	"errors"
-	common2 "golang_01/common"
+	"golang_01/common"
 	"strings"
 )
 
 const EntityName = "restaurants"
 
 type Restaurants struct {
-	common2.SQLModel `json:",inline"`
-	OwnerId          int             `json:"owner_id" gorm:"column:owner_id;"`
-	Name             string          `json:"name" gorm:"column:name;"`
-	Addr             string          `json:"address" gorm:"column:addr;"`
-	Logo             *common2.Image  `json:"logo" gorm:"column:logo;"`
-	Cover            *common2.Images `json:"cover" gorm:"column:cover;"`
+	common.SQLModel `json:",inline"`
+	OwnerId         int            `json:"owner_id" gorm:"column:owner_id;"`
+	Name            string         `json:"name" gorm:"column:name;"`
+	Addr            string         `json:"address" gorm:"column:addr;"`
+	Logo            *common.Image  `json:"logo" gorm:"column:logo;"`
+	Cover           *common.Images `json:"cover" gorm:"column:cover;"`
 }
 
 func (Restaurants) TableName() string {
@@ -22,10 +22,10 @@ func (Restaurants) TableName() string {
 }
 
 type RestaurantUpdate struct {
-	Name  *string         `json:"name" gorm:"column:name;"`
-	Addr  *string         `json:"address" gorm:"column:addr;"`
-	Logo  *common2.Image  `json:"logo" gorm:"column:logo;"`
-	Cover *common2.Images `json:"cover" gorm:"column:cover;"`
+	Name  *string        `json:"name" gorm:"column:name;"`
+	Addr  *string        `json:"address" gorm:"column:addr;"`
+	Logo  *common.Image  `json:"logo" gorm:"column:logo;"`
+	Cover *common.Images `json:"cover" gorm:"column:cover;"`
 }
 
 func (RestaurantUpdate) TableName() string {
@@ -33,11 +33,11 @@ func (RestaurantUpdate) TableName() string {
 }
 
 type RestaurantCreate struct {
-	Id    int             `json:"id" gorm:"column:id;"`
-	Name  string          `json:"name" gorm:"column:name;"`
-	Addr  string          `json:"address" gorm:"column:addr;"`
-	Logo  *common2.Image  `json:"logo" gorm:"column:logo;"`
-	Cover *common2.Images `json:"cover" gorm:"column:cover;"`
+	Id    int            `json:"id" gorm:"column:id;"`
+	Name  string         `json:"name" gorm:"column:name;"`
+	Addr  string         `json:"address" gorm:"column:addr;"`
+	Logo  *common.Image  `json:"logo" gorm:"column:logo;"`
+	Cover *common.Images `json:"cover" gorm:"column:cover;"`
 }
 
 func (RestaurantCreate) TableName() string {
