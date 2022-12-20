@@ -121,3 +121,19 @@ func ErrEntityExisted(entity string, err error) *AppError {
 		fmt.Sprintf("ErrUserAlreadyExists%s", entity),
 	)
 }
+
+func ErrDisableStatus(entity string, name string, err error) *AppError {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s is disabled", strings.ToLower(name)),
+		fmt.Sprintf("ErrUserAlreadyExists%s", entity),
+	)
+}
+
+func ErrPermission(role string, err error) *AppError {
+	return NewCustomError(
+		err,
+		fmt.Sprintf("%s have not permission", strings.ToLower(role)),
+		fmt.Sprintf("ErrPermissionUser"),
+	)
+}

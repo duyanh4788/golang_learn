@@ -11,6 +11,7 @@ import (
 
 func main() {
 	dns := os.Getenv("MYSQL")
+	secretKey := os.Getenv("SECRET_KEY")
 	s3BucketName := os.Getenv("S3BucketName")
 	s3Region := os.Getenv("s3Region")
 	s3Apikey := os.Getenv("s3Apikey")
@@ -26,7 +27,7 @@ func main() {
 
 	log.Println("Connect to", db)
 
-	if err := mainrouter.MainServices(db, s3Provider); err != nil {
+	if err := mainrouter.MainServices(db, s3Provider, secretKey); err != nil {
 		log.Println(err)
 	}
 }

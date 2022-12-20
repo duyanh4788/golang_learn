@@ -8,15 +8,17 @@ import (
 type AppContext interface {
 	GetMainDBConnect() *gorm.DB
 	UploadProvider() uploadprovider.UploadProvider
+	SecretKey() string
 }
 
 type appContext struct {
 	db         *gorm.DB
 	upProvider uploadprovider.UploadProvider
+	secret     string
 }
 
-func NewAppContext(db *gorm.DB, upProvider uploadprovider.UploadProvider) *appContext {
-	return &appContext{db: db, upProvider: upProvider}
+func NewAppContext(db *gorm.DB, upProvider uploadprovider.UploadProvider, secret string) *appContext {
+	return &appContext{db: db, upProvider: upProvider, secret: secret}
 }
 
 func (ctx *appContext) GetMainDBConnect() *gorm.DB {
@@ -25,4 +27,8 @@ func (ctx *appContext) GetMainDBConnect() *gorm.DB {
 
 func (ctx *appContext) UploadProvider() uploadprovider.UploadProvider {
 	return ctx.upProvider
+}
+
+func (ctx *appContext) SecretKey() string {
+	return ctx.secret
 }
