@@ -14,11 +14,11 @@ type LoginStorage interface {
 type LoginBiz struct {
 	storeUser     LoginStorage
 	tokenProvider tokenprovider.Provider
-	hashes        Hashes
+	hashes        Hasher
 	expiry        int
 }
 
-func NewLoginBiz(storeUser LoginStorage, toKenProvider tokenprovider.Provider, hashes Hashes, expiry int) *LoginBiz {
+func NewLoginBiz(storeUser LoginStorage, toKenProvider tokenprovider.Provider, hashes Hasher, expiry int) *LoginBiz {
 	return &LoginBiz{
 		storeUser:     storeUser,
 		tokenProvider: toKenProvider,

@@ -2,7 +2,7 @@ package restaurantgin
 
 import (
 	"github.com/gin-gonic/gin"
-	common2 "golang_01/common"
+	"golang_01/common"
 	"golang_01/component"
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/model"
@@ -15,8 +15,12 @@ func CreateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		var data restaurantmodel.RestaurantCreate
 
 		if err := c.ShouldBind(&data); err != nil {
-			panic(common2.ErrInvalidRequest(err))
+			panic(common.ErrInvalidRequest(err))
 		}
+
+		requester := c.MustGet(common.CurrentUser).(common.Requester)
+
+		data.OwnerId = requester.GetUserId()
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
 		biz := restaurantbiz.NewCreateRestaurantBiz(store)
@@ -25,6 +29,6 @@ func CreateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, common2.SimpleSuccessResponse(data, ""))
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data, ""))
 	}
 }

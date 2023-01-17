@@ -25,7 +25,7 @@ func Login(appCtx component.AppContext) gin.HandlerFunc {
 
 		store := userstore.NewSqlStore(db)
 		md5 := hasher.NewMd5Hash()
-		biz := userbiz.NewLoginBiz(store, tokenProvider, md5, 60*60*20*30)
+		biz := userbiz.NewLoginBiz(store, tokenProvider, md5, 60*60*24*1)
 
 		account, err := biz.Login(c.Request.Context(), &data)
 

@@ -8,6 +8,7 @@ import (
 	"golang_01/component"
 	"golang_01/component/tokenprovider/jwt"
 	"golang_01/modules/user/model"
+	userstore "golang_01/modules/user/store"
 	"strings"
 )
 
@@ -33,8 +34,9 @@ func ExtractTokenFromHeader(s string) (string, error) {
 	return parts[1], nil
 }
 
-func RequireAuth(appCtx component.AppContext, store AuthenticaStore) func(c *gin.Context) {
+func RequireAuth(appCtx component.AppContext) func(c *gin.Context) {
 	tokenProvider := jwt.NewTokenJwtProvider(appCtx.SecretKey())
+	store := userstore.NewSqlStore(appCtx.GetMainDBConnect())
 
 	return func(c *gin.Context) {
 		token, err := ExtractTokenFromHeader(c.GetHeader("Authorization"))

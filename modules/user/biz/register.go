@@ -11,16 +11,16 @@ type RegisterStore interface {
 	CreateUser(ctx context.Context, data *usermodel.UserCreate) error
 }
 
-type Hashes interface {
+type Hasher interface {
 	Hash(data string) string
 }
 
 type registerBiz struct {
 	registerStore RegisterStore
-	hashes        Hashes
+	hashes        Hasher
 }
 
-func NewRegisterBiz(store RegisterStore, hashes Hashes) *registerBiz {
+func NewRegisterBiz(store RegisterStore, hashes Hasher) *registerBiz {
 	return &registerBiz{
 		registerStore: store,
 		hashes:        hashes,

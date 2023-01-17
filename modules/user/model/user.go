@@ -10,8 +10,8 @@ const EntityName = "User"
 type User struct {
 	common.SQLModel
 	Email    string          `json:"email" gorm:"column:email;"`
-	Password string          `json:"password" gorm:"column:password;"`
-	Salt     string          `json:"salt" gorm:"column:salt;"`
+	Password string          `json:"-" gorm:"column:password;"`
+	Salt     string          `json:"-" gorm:"column:salt;"`
 	LastName string          `json:"last_name" gorm:"column:last_name;"`
 	FistName string          `json:"fist_name" gorm:"column:fist_name;"`
 	Phone    string          `json:"phone" gorm:"column:phone;"`

@@ -3,11 +3,12 @@ package restaurantservice
 import (
 	"github.com/gin-gonic/gin"
 	"golang_01/component"
+	"golang_01/middleware"
 	"golang_01/modules/restaurant/transport/gin"
 )
 
 func RestaurantService(appCtx component.AppContext, router *gin.RouterGroup) error {
-	restaurants := router.Group("/restaurants")
+	restaurants := router.Group("/restaurants", middleware.RequireAuth(appCtx))
 	{
 		restaurants.POST("", restaurantgin.CreateRestaurant(appCtx))
 		restaurants.GET("", restaurantgin.ListRestaurant(appCtx))
