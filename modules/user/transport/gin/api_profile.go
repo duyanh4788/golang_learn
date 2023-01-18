@@ -10,6 +10,7 @@ import (
 func Profile(appCtx component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		profile := c.MustGet(common.CurrentUser)
+
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(profile, "success"))
 	}
 }

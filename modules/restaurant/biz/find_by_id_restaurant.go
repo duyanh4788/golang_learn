@@ -33,7 +33,7 @@ func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*rest
 	}
 
 	if data.Status == 0 {
-		return nil, common.ErrCannotFindEntity(restaurantmodel.EntityName, nil)
+		return nil, common.ErrDisableStatus(restaurantmodel.EntityName, data.Name, err)
 	}
 
 	return data, nil

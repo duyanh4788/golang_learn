@@ -1,10 +1,9 @@
 package common
 
-type DBType int
-
 const (
-	DBTypeRestaurant DBType = 1
-	DBTypeUser       DBType = 2
+	DBTypeRestaurant = 1
+	DBTypeUser       = 2
+	DBTypeCategory   = 3
 )
 
 const (

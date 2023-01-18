@@ -28,7 +28,7 @@ func CreateRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		if err := biz.CreateRestaurant(c.Request.Context(), &data); err != nil {
 			panic(err)
 		}
-
-		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data, ""))
+		data.MaskCreate(false)
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data.FakeId, ""))
 	}
 }

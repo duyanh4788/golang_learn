@@ -7,6 +7,7 @@ import (
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/model"
 	"golang_01/modules/restaurant/storage"
+	restaurantlikestore "golang_01/modules/restaurantlike/storage"
 	"net/http"
 )
 
@@ -26,11 +27,21 @@ func ListRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		paging.Fulfill()
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantbiz.NewListRestaurantBiz(store)
+		likeStore := restaurantlikestore.NewSqlStore(appContext.GetMainDBConnect())
+		biz := restaurantbiz.NewListRestaurantBiz(store, likeStore)
 
 		result, err := biz.ListRestaurant(c.Request.Context(), &filter, &paging)
+
 		if err != nil {
 			panic(err)
+		}
+
+		for i := range result {
+			result[i].Mask(false)
+
+			if i == len(result)-1 {
+				paging.NextCursor = result[i].FakeId.String()
+			}
 		}
 
 		c.JSON(http.StatusOK, common2.NewSuccessResponse(result, paging, filter, "success", ""))
