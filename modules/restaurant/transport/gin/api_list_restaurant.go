@@ -2,12 +2,12 @@ package restaurantgin
 
 import (
 	"github.com/gin-gonic/gin"
-	common2 "golang_01/common"
+	"golang_01/common"
 	"golang_01/component"
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/model"
 	"golang_01/modules/restaurant/storage"
-	restaurantlikestore "golang_01/modules/restaurantlike/storage"
+	"golang_01/modules/restaurantlike/storage"
 	"net/http"
 )
 
@@ -18,7 +18,7 @@ func ListRestaurant(appContext component.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		var paging common2.Paging
+		var paging common.Paging
 
 		if err := c.ShouldBind(&paging); err != nil {
 			panic(err)
@@ -44,6 +44,6 @@ func ListRestaurant(appContext component.AppContext) gin.HandlerFunc {
 			}
 		}
 
-		c.JSON(http.StatusOK, common2.NewSuccessResponse(result, paging, filter, "success", ""))
+		c.JSON(http.StatusOK, common.NewSuccessResponse(result, paging, filter, "success", ""))
 	}
 }

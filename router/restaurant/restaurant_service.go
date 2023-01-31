@@ -5,6 +5,7 @@ import (
 	"golang_01/component"
 	"golang_01/middleware"
 	"golang_01/modules/restaurant/transport/gin"
+	restaurantlikegin "golang_01/modules/restaurantlike/transport"
 )
 
 func RestaurantService(appCtx component.AppContext, router *gin.RouterGroup) error {
@@ -15,6 +16,7 @@ func RestaurantService(appCtx component.AppContext, router *gin.RouterGroup) err
 		restaurants.GET("/:restaurant_id", restaurantgin.FindRestaurant(appCtx))
 		restaurants.PUT("/:restaurant_id", restaurantgin.UpdateRestaurant(appCtx))
 		restaurants.DELETE("/:restaurant_id", restaurantgin.DeleteRestaurant(appCtx))
+		restaurants.GET("/:restaurant_id/liked-users", restaurantlikegin.ListUserLikeRestaurant(appCtx))
 	}
 	return nil
 }

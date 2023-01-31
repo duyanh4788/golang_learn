@@ -25,6 +25,8 @@ func main() {
 		log.Fatal("Can not connect DB")
 	}
 
+	db = db.Debug()
+
 	log.Println("Connect to", db)
 
 	if err := mainrouter.MainServices(db, s3Provider, secretKey); err != nil {

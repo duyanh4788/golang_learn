@@ -73,6 +73,6 @@ var (
 	)
 )
 
-func (data *User) Mask() {
+func (data *User) Mask(isAdminOrOwner bool) {
 	data.GenUID(common.DBTypeUser)
 }
