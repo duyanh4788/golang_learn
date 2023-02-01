@@ -26,7 +26,7 @@ func ListUserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 
 		paging.Fulfill()
 
-		store := restaurantlikestore.NewSqlStore(appContext.GetMainDBConnect())
+		store := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
 		biz := restaurantlikebiz.NewListUserLikeRestaurantBiz(store)
 
 		result, err := biz.ListUserLikeRestaurant(c.Request.Context(), &filter, &paging)

@@ -3,7 +3,7 @@ package restaurantstorage
 import (
 	"context"
 	"golang_01/common"
-	restaurantmodel "golang_01/modules/restaurant/model"
+	"golang_01/modules/restaurant/model"
 )
 
 func (s *sqlStore) DeleteRestaurant(

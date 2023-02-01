@@ -17,6 +17,7 @@ func RestaurantService(appCtx component.AppContext, router *gin.RouterGroup) err
 		restaurants.PUT("/:restaurant_id", restaurantgin.UpdateRestaurant(appCtx))
 		restaurants.DELETE("/:restaurant_id", restaurantgin.DeleteRestaurant(appCtx))
 		restaurants.GET("/:restaurant_id/liked-users", restaurantlikegin.ListUserLikeRestaurant(appCtx))
+		restaurants.GET("/:restaurant_id/users-liked", restaurantlikegin.UserLikeRestaurant(appCtx))
 	}
 	return nil
 }
