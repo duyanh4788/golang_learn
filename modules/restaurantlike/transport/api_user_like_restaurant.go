@@ -24,7 +24,7 @@ func UserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		}
 
 		restaurantStore := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
-		restaurantBiz := restaurantbiz.NewFindRestaurantBiz(restaurantStore)
+		restaurantBiz := restaurantbiz.NewFindRestaurantBiz(restaurantStore, nil)
 
 		restaurant, err := restaurantBiz.FindRestaurant(c.Request.Context(), int(uid.GetLocalID()))
 

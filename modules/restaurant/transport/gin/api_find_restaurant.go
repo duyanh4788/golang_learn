@@ -6,6 +6,7 @@ import (
 	"golang_01/component"
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/storage"
+	restaurantlikestorage "golang_01/modules/restaurantlike/storage"
 	"net/http"
 )
 
@@ -18,7 +19,8 @@ func FindRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		}
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantbiz.NewFindRestaurantBiz(store)
+		likeStore := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
+		biz := restaurantbiz.NewFindRestaurantBiz(store, likeStore)
 		data, err := biz.FindRestaurant(c.Request.Context(), int(uid.GetLocalID()))
 
 		if err != nil {

@@ -8,9 +8,9 @@ import (
 )
 
 type UserLikeRestaurantStore interface {
-	FindUserLikeRestaurant(ctx context.Context, id int) (*restaurantlikemodel.RestaurantLike, error)
+	FindUserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) (*restaurantlikemodel.RestaurantLike, error)
 	UserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) error
-	DeleteUserLikeRestaurant(ctx context.Context, id int) error
+	DeleteUserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) error
 }
 
 type userLikeRestaurantBiz struct {
@@ -22,7 +22,7 @@ func NewUserLikeRestaurantBiz(store UserLikeRestaurantStore) *userLikeRestaurant
 }
 
 func (biz *userLikeRestaurantBiz) UserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) (string, error) {
-	restaurantLike, err := biz.store.FindUserLikeRestaurant(ctx, data.RestaurantId)
+	restaurantLike, err := biz.store.FindUserLikeRestaurant(ctx, data)
 
 	if err != nil {
 		if err != common.RecordNotFound {
@@ -35,7 +35,7 @@ func (biz *userLikeRestaurantBiz) UserLikeRestaurant(ctx context.Context, data *
 	}
 
 	if restaurantLike.RestaurantId > 0 {
-		if err := biz.store.DeleteUserLikeRestaurant(ctx, restaurantLike.RestaurantId); err != nil {
+		if err := biz.store.DeleteUserLikeRestaurant(ctx, restaurantLike); err != nil {
 			return restaurantlikemodel.NIL, common.ErrCannotLike(restaurantmodel.EntityName, err)
 		}
 		return restaurantlikemodel.UNLIKE, nil

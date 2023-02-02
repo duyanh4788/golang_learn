@@ -6,11 +6,11 @@ import (
 	"golang_01/modules/restaurantlike/model"
 )
 
-func (sql *sqlStore) FindUserLikeRestaurant(ctx context.Context, id int) (*restaurantlikemodel.RestaurantLike, error) {
+func (sql *sqlStore) FindUserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) (*restaurantlikemodel.RestaurantLike, error) {
 
 	var restaurantLike restaurantlikemodel.RestaurantLike
 
-	if err := sql.db.Where("restaurant_id = ?", id).First(&restaurantLike).Error; err != nil {
+	if err := sql.db.Where("restaurant_id = ? AND user_id = ?", data.RestaurantId, data.UserId).First(&restaurantLike).Error; err != nil {
 
 		return nil, common.ErrDB(err)
 	}
@@ -26,10 +26,10 @@ func (sql *sqlStore) UserLikeRestaurant(ctx context.Context, data *restaurantlik
 	return nil
 }
 
-func (sql *sqlStore) DeleteUserLikeRestaurant(ctx context.Context, id int) error {
+func (sql *sqlStore) DeleteUserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) error {
 	var restaurantLike restaurantlikemodel.RestaurantLike
 
-	if err := sql.db.Where("restaurant_id = ?", id).Delete(&restaurantLike).Error; err != nil {
+	if err := sql.db.Where("restaurant_id = ? AND user_id = ?", data.RestaurantId, data.UserId).Delete(&restaurantLike).Error; err != nil {
 		return common.ErrDB(err)
 	}
 	return nil

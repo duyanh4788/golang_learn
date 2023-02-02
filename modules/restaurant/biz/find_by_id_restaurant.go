@@ -4,6 +4,7 @@ import (
 	"context"
 	"golang_01/common"
 	"golang_01/modules/restaurant/model"
+	"log"
 )
 
 type FindRestaurantStore interface {
@@ -15,11 +16,12 @@ type FindRestaurantStore interface {
 }
 
 type findRestaurantBiz struct {
-	store FindRestaurantStore
+	store     FindRestaurantStore
+	likeStore LikeStore
 }
 
-func NewFindRestaurantBiz(store FindRestaurantStore) *findRestaurantBiz {
-	return &findRestaurantBiz{store: store}
+func NewFindRestaurantBiz(store FindRestaurantStore, likeStore LikeStore) *findRestaurantBiz {
+	return &findRestaurantBiz{store: store, likeStore: likeStore}
 }
 
 func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*restaurantmodel.Restaurants, error) {
@@ -34,6 +36,20 @@ func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*rest
 
 	if data.Status == 0 {
 		return nil, common.ErrDisableStatus(restaurantmodel.EntityName, data.Name, err)
+	}
+
+	var ids []int
+
+	ids = append(ids, data.Id)
+
+	mapLike, err := biz.likeStore.GetRestaurantLikes(ctx, ids)
+
+	if err != nil {
+		log.Println("Cannot get like count", err)
+	}
+
+	if v := mapLike; v != nil {
+		data.LikeCount = mapLike[data.Id]
 	}
 
 	return data, nil
