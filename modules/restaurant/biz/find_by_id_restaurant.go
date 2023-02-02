@@ -38,18 +38,19 @@ func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*rest
 		return nil, common.ErrDisableStatus(restaurantmodel.EntityName, data.Name, err)
 	}
 
-	var ids []int
+	if biz.likeStore != nil {
+		var ids []int
+		ids = append(ids, data.Id)
 
-	ids = append(ids, data.Id)
+		mapLike, err := biz.likeStore.GetRestaurantLikes(ctx, ids)
 
-	mapLike, err := biz.likeStore.GetRestaurantLikes(ctx, ids)
+		if err != nil {
+			log.Println("Cannot get like count", err)
+		}
 
-	if err != nil {
-		log.Println("Cannot get like count", err)
-	}
-
-	if v := mapLike; v != nil {
-		data.LikeCount = mapLike[data.Id]
+		if v := mapLike; v != nil {
+			data.LikeCount = mapLike[data.Id]
+		}
 	}
 
 	return data, nil
