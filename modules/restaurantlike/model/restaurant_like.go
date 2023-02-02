@@ -7,6 +7,12 @@ import (
 
 const EntityName = "restaurant_likes"
 
+const (
+	LIKE   = "liked success"
+	UNLIKE = "unliked success"
+	NIL    = ""
+)
+
 type RestaurantLike struct {
 	RestaurantId int                `json:"restaurant_id" gorm:"column:restaurant_id;"`
 	UserId       int                `json:"user_id" gorm:"column:user_id;"`

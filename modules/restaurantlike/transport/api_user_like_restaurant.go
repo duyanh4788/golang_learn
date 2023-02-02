@@ -40,10 +40,13 @@ func UserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		store := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
 		biz := restaurantlikebiz.NewUserLikeRestaurantBiz(store)
 
-		if err := biz.UserLikeRestaurant(c.Request.Context(), &data); err != nil {
+		mesage, err := biz.UserLikeRestaurant(c.Request.Context(), &data)
+
+		if err != nil {
 			panic(err)
 		}
-		c.JSON(http.StatusOK, common.NewSuccessResponse(true, nil, nil, "success", ""))
+
+		c.JSON(http.StatusOK, common.NewSuccessResponse(true, nil, nil, "success", mesage))
 
 	}
 }
