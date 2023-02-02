@@ -6,6 +6,7 @@ import (
 	"golang_01/component"
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/model"
+	"golang_01/modules/restaurant/repo"
 	"golang_01/modules/restaurant/storage"
 	"golang_01/modules/restaurantlike/storage"
 	"net/http"
@@ -28,7 +29,8 @@ func ListRestaurant(appContext component.AppContext) gin.HandlerFunc {
 
 		store := restaurantstorage.NewSqlStore(appContext.GetMainDBConnect())
 		likeStore := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantbiz.NewListRestaurantBiz(store, likeStore)
+		restaurantRepo := restaurantrepo.NewListRestaurantRepo(store, likeStore)
+		biz := restaurantbiz.NewListRestaurantBiz(restaurantRepo)
 
 		result, err := biz.ListRestaurant(c.Request.Context(), &filter, &paging)
 

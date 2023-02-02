@@ -26,7 +26,7 @@ func (sql *sqlStore) UserLikeRestaurant(ctx context.Context, data *restaurantlik
 	return nil
 }
 
-func (sql *sqlStore) DeleteUserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) error {
+func (sql *sqlStore) UserUnLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) error {
 	var restaurantLike restaurantlikemodel.RestaurantLike
 
 	if err := sql.db.Where("restaurant_id = ? AND user_id = ?", data.RestaurantId, data.UserId).Delete(&restaurantLike).Error; err != nil {

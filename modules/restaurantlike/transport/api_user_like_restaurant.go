@@ -9,14 +9,11 @@ import (
 	"golang_01/modules/restaurantlike/biz"
 	restaurantlikemodel "golang_01/modules/restaurantlike/model"
 	"golang_01/modules/restaurantlike/storage"
-	usermodel "golang_01/modules/user/model"
 	"net/http"
 )
 
 func UserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data restaurantlikemodel.RestaurantLike
-
 		uid, err := common.FromBase58(c.Param("restaurant_id"))
 
 		if err != nil {
@@ -32,13 +29,15 @@ func UserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 			panic(err)
 		}
 
-		userInfo := c.MustGet(common.CurrentUser).(*usermodel.User)
+		requester := c.MustGet(common.CurrentUser).(common.Requester)
 
-		data.RestaurantId = restaurant.Id
-		data.UserId = userInfo.Id
+		data := restaurantlikemodel.RestaurantLike{
+			RestaurantId: restaurant.Id,
+			UserId:       requester.GetUserId(),
+		}
 
 		store := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantlikebiz.NewUserLikeRestaurantBiz(store)
+		biz := restaurantlikebiz.NewUserLikeRestaurantBiz(store, restaurantStore)
 
 		mesage, err := biz.UserLikeRestaurant(c.Request.Context(), &data)
 

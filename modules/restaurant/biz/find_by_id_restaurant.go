@@ -16,12 +16,12 @@ type FindRestaurantStore interface {
 }
 
 type findRestaurantBiz struct {
-	store     FindRestaurantStore
-	likeStore LikeStore
+	store          FindRestaurantStore
+	restaurantRepo ListRestaurantRepo
 }
 
-func NewFindRestaurantBiz(store FindRestaurantStore, likeStore LikeStore) *findRestaurantBiz {
-	return &findRestaurantBiz{store: store, likeStore: likeStore}
+func NewFindRestaurantBiz(store FindRestaurantStore, restaurantRepo ListRestaurantRepo) *findRestaurantBiz {
+	return &findRestaurantBiz{store: store, restaurantRepo: restaurantRepo}
 }
 
 func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*restaurantmodel.Restaurants, error) {
@@ -38,18 +38,25 @@ func (biz *findRestaurantBiz) FindRestaurant(ctx context.Context, id int) (*rest
 		return nil, common.ErrDisableStatus(restaurantmodel.EntityName, data.Name, err)
 	}
 
-	if biz.likeStore != nil {
-		var ids []int
-		ids = append(ids, data.Id)
+	if biz.restaurantRepo != nil {
+		var restaurant restaurantmodel.Filter
+		var paging common.Paging
 
-		mapLike, err := biz.likeStore.GetRestaurantLikes(ctx, ids)
+		restaurant.RestaurantId = id
+		paging.Fulfill()
+
+		mapLike, err := biz.restaurantRepo.ListRestaurant(ctx, &restaurant, &paging)
 
 		if err != nil {
 			log.Println("Cannot get like count", err)
 		}
 
 		if v := mapLike; v != nil {
-			data.LikeCount = mapLike[data.Id]
+			for _, item := range mapLike {
+				if data.Id == item.Id {
+					data.LikeCount = item.LikeCount
+				}
+			}
 		}
 	}
 
