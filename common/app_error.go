@@ -138,10 +138,10 @@ func ErrPermission(role string, err error) *AppError {
 	)
 }
 
-func ErrCannotLike(name string, err error) *AppError {
+func ErrCannotLike(name string, err error, action string) *AppError {
 	return NewCustomError(
 		err,
-		fmt.Sprintf("%s cannot like", strings.ToLower(name)),
+		fmt.Sprintf("%s cannot %s", strings.ToLower(name), strings.ToLower(action)),
 		fmt.Sprintf("ErrUserLikeRestaurant"),
 	)
 }
