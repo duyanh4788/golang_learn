@@ -4,8 +4,9 @@ import (
 	"context"
 	"golang_01/common"
 	"golang_01/component/asyncjob"
-	restaurantmodel "golang_01/modules/restaurant/model"
+	"golang_01/modules/restaurant/model"
 	"golang_01/modules/restaurantlike/model"
+	"log"
 )
 
 type UserLikedRestaurantStore interface {
@@ -13,17 +14,16 @@ type UserLikedRestaurantStore interface {
 	UserLikedRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) error
 }
 
-type FinAndDeCreaseRestaurant interface {
+type InAndDeCreaseRestaurant interface {
 	IncreaseLikeCount(ctx context.Context, id int) error
-	DecreaseLikeCount(ctx context.Context, id int) error
 }
 
 type userLikedRestaurantBiz struct {
 	store    UserLikedRestaurantStore
-	inDstore FinAndDeCreaseRestaurant
+	inDstore InAndDeCreaseRestaurant
 }
 
-func NewUserLikedRestaurantBiz(store UserLikedRestaurantStore, inDstore FinAndDeCreaseRestaurant) *userLikedRestaurantBiz {
+func NewUserLikedRestaurantBiz(store UserLikedRestaurantStore, inDstore InAndDeCreaseRestaurant) *userLikedRestaurantBiz {
 	return &userLikedRestaurantBiz{store: store, inDstore: inDstore}
 }
 
@@ -40,12 +40,18 @@ func (biz *userLikedRestaurantBiz) UserLikedRestaurant(ctx context.Context, data
 				return restaurantlikemodel.NIL, common.ErrCannotLike(restaurantmodel.EntityName, err, "liked")
 			}
 			go func() {
-				recover()
+				defer common.Recover()
 				job := asyncjob.NewJob(func(ctx context.Context) error {
-					return biz.inDstore.IncreaseLikeCount(ctx, data.RestaurantId)
-				})
+					if err := biz.inDstore.IncreaseLikeCount(ctx, data.RestaurantId); err != nil {
+						log.Println(err)
+						return err
+					}
+					return nil
+				}, asyncjob.WithName("IncreaseLikeCount"))
 
-				_ = asyncjob.NewGroup(true, job).Run(ctx)
+				if err := asyncjob.NewGroup(true, job).Run(ctx); err != nil {
+					log.Println(err)
+				}
 			}()
 			return restaurantlikemodel.LIKE, nil
 		}

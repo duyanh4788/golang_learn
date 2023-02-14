@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"golang_01/component/asyncjob"
 	"log"
 	"time"
@@ -9,24 +10,28 @@ import (
 
 func main() {
 	job1 := asyncjob.NewJob(func(ctx context.Context) error {
-		time.Sleep(time.Second)
 		log.Println("Im job 1")
-		return nil
-		//return errors.New("something went wrong job 1")
-	})
+		//return nil
+		return errors.New("something went wrong job 1")
+	},
+		asyncjob.WithName("job1"),
+		asyncjob.WithRetriesDuration([]time.Duration{time.Second * 5}))
 
 	job2 := asyncjob.NewJob(func(ctx context.Context) error {
-		time.Sleep(time.Second * 2)
 		log.Println("Im job 2")
-
-		return nil
-	})
+		return errors.New("something went wrong job 2")
+		//return nil
+	},
+		asyncjob.WithName("job2"),
+		asyncjob.WithRetriesDuration([]time.Duration{time.Second * 5}))
 
 	job3 := asyncjob.NewJob(func(ctx context.Context) error {
-		time.Sleep(time.Second * 3)
 		log.Println("Im job 3")
+		return errors.New("something went wrong job 3")
 		return nil
-	})
+	},
+		asyncjob.WithName("job3"),
+		asyncjob.WithRetriesDuration([]time.Duration{time.Second * 5}))
 
 	group := asyncjob.NewGroup(true, job1, job2, job3)
 

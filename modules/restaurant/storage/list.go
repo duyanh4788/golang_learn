@@ -6,7 +6,7 @@ import (
 	"golang_01/modules/restaurant/model"
 )
 
-func (s *sqlStore) ListDataByConditions(
+func (sql *sqlStore) ListDataByConditions(
 	ctx context.Context,
 	conditions map[string]interface{},
 	filter *restaurantmodel.Filter,
@@ -15,7 +15,7 @@ func (s *sqlStore) ListDataByConditions(
 ) ([]restaurantmodel.Restaurants, error) {
 	var data []restaurantmodel.Restaurants
 
-	db := s.db
+	db := sql.db
 
 	db = db.Table(restaurantmodel.Restaurants{}.TableName()).Where(conditions).Where("status in (1)")
 

@@ -2,6 +2,7 @@ package asyncjob
 
 import (
 	"context"
+	"log"
 	"time"
 )
 
@@ -35,12 +36,13 @@ const (
 )
 
 type jobConfig struct {
+	Name       string
 	MaxTimeout time.Duration
 	Retries    []time.Duration
 }
 
 func (js JobState) String() string {
-	return []string{"Init", "Running", "Failed", "Timeout", "Completed", "RetryFailed"}[js]
+	return [6]string{"Init", "Running", "Failed", "Timeout", "Completed", "RetryFailed"}[js]
 }
 
 type job struct {
@@ -51,7 +53,7 @@ type job struct {
 	stopChan   chan bool
 }
 
-func NewJob(handler JobHandler) *job {
+func NewJob(handler JobHandler, option ...OptionHdl) *job {
 	j := job{
 		config: jobConfig{
 			MaxTimeout: defaultMaxTimeout,
@@ -63,10 +65,15 @@ func NewJob(handler JobHandler) *job {
 		stopChan:   make(chan bool),
 	}
 
+	for i := range option {
+		option[i](&j.config)
+	}
+
 	return &j
 }
 
 func (j *job) Execute(ctx context.Context) error {
+	log.Printf("execute %s\n\n", j.config.Name)
 	j.state = StateRunning
 
 	var err error
@@ -112,4 +119,18 @@ func (j *job) SetRetryDuration(times []time.Duration) {
 	}
 
 	j.config.Retries = times
+}
+
+type OptionHdl func(config *jobConfig)
+
+func WithName(name string) OptionHdl {
+	return func(cf *jobConfig) {
+		cf.Name = name
+	}
+}
+
+func WithRetriesDuration(times []time.Duration) OptionHdl {
+	return func(cf *jobConfig) {
+		cf.Retries = times
+	}
 }

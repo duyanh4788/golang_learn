@@ -7,21 +7,21 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *sqlStore) UpdateRestaurant(
+func (sql *sqlStore) UpdateRestaurant(
 	ctx context.Context,
 	conditions map[string]interface{},
 	data *restaurantmodel.RestaurantUpdate,
 ) error {
 
-	if err := s.db.Where(conditions).Updates(data).Error; err != nil {
+	if err := sql.db.Where(conditions).Updates(data).Error; err != nil {
 		return common.ErrDB(err)
 	}
 
 	return nil
 }
 
-func (s *sqlStore) IncreaseLikeCount(ctx context.Context, id int) error {
-	db := *s.db
+func (sql *sqlStore) IncreaseLikeCount(ctx context.Context, id int) error {
+	db := *sql.db
 
 	if err := db.Table(restaurantmodel.Restaurants{}.TableName()).
 		Where("id =?", id).
@@ -32,8 +32,8 @@ func (s *sqlStore) IncreaseLikeCount(ctx context.Context, id int) error {
 	return nil
 }
 
-func (s *sqlStore) DecreaseLikeCount(ctx context.Context, id int) error {
-	db := *s.db
+func (sql *sqlStore) DecreaseLikeCount(ctx context.Context, id int) error {
+	db := *sql.db
 
 	if err := db.Table(restaurantmodel.Restaurants{}.TableName()).
 		Where("id =?", id).

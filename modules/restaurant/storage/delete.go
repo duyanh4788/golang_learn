@@ -6,11 +6,11 @@ import (
 	"golang_01/modules/restaurant/model"
 )
 
-func (s *sqlStore) DeleteRestaurant(
+func (sql *sqlStore) DeleteRestaurant(
 	ctx context.Context,
 	cond map[string]interface{},
 ) error {
-	if err := s.db.
+	if err := sql.db.
 		Table(restaurantmodel.Restaurants{}.TableName()).
 		Where(cond).
 		Updates(map[string]interface{}{"status": 0}).
