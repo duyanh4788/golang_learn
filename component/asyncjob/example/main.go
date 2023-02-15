@@ -25,15 +25,15 @@ func main() {
 		asyncjob.WithName("job2"),
 		asyncjob.WithRetriesDuration([]time.Duration{time.Second * 5}))
 
-	job3 := asyncjob.NewJob(func(ctx context.Context) error {
-		log.Println("Im job 3")
-		return errors.New("something went wrong job 3")
-		return nil
-	},
-		asyncjob.WithName("job3"),
-		asyncjob.WithRetriesDuration([]time.Duration{time.Second * 5}))
+	//job3 := asyncjob.NewJob(func(ctx context.Context) error {
+	//	log.Println("Im job 3")
+	//	return errors.New("something went wrong job 3")
+	//	return nil
+	//},
+	//	asyncjob.WithName("job3"),
+	//	asyncjob.WithRetriesDuration([]time.Duration{time.Second * 5}))
 
-	group := asyncjob.NewGroup(true, job1, job2, job3)
+	group := asyncjob.NewGroup(true, job1, job2)
 
 	if err := group.Run(context.Background()); err != nil {
 		log.Println(err)
