@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *sqlStore) FindUser(ctx context.Context, condition map[string]interface{}, moreInfo ...string) (*usermodel.User, error) {
+func (s *sqlStore) FindUserByEmail(ctx context.Context, condition map[string]interface{}, moreInfo ...string) (*usermodel.User, error) {
 	db := s.db.Table(usermodel.User{}.TableName())
 
 	for i := range moreInfo {
@@ -17,6 +17,26 @@ func (s *sqlStore) FindUser(ctx context.Context, condition map[string]interface{
 	var user usermodel.User
 
 	if err := db.Where(condition).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, common.ErrCannotFindEntity(usermodel.EntityName, err)
+		}
+
+		return nil, common.ErrDB(err)
+	}
+
+	return &user, nil
+}
+
+func (s *sqlStore) FindUserById(ctx context.Context, id int, moreInfo ...string) (*usermodel.User, error) {
+	db := s.db.Table(usermodel.User{}.TableName())
+
+	for i := range moreInfo {
+		db = db.Preload(moreInfo[i])
+	}
+
+	var user usermodel.User
+
+	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, common.ErrCannotFindEntity(usermodel.EntityName, err)
 		}

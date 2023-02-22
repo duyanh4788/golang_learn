@@ -14,7 +14,9 @@ func UserService(appCtx component.AppContext, router *gin.RouterGroup) error {
 		user.POST("/register", usergin.Register(appCtx))
 		user.POST("/login", usergin.Login(appCtx))
 		user.GET("/profile", middleware.RequireAuth(appCtx), usergin.Profile(appCtx))
-		user.GET("/admin", middleware.RequireAuth(appCtx), middleware.RequireRole(appCtx, "mod"),
+		user.PUT("/profile", middleware.RequireAuth(appCtx), usergin.UpdateProfile(appCtx))
+		user.PUT("/update-password", middleware.RequireAuth(appCtx), usergin.UpdatePassWord(appCtx))
+		user.GET("/admin", middleware.RequireAuth(appCtx), middleware.RequireRole(appCtx, "admin"),
 			func(context *gin.Context) {
 				context.JSON(http.StatusOK, gin.H{"data": "ok"})
 			})

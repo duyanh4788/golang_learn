@@ -41,7 +41,7 @@ func (role *UserRole) Scan(value interface{}) error {
 
 	switch result {
 	case "admin":
-		roleType = RoleUser
+		roleType = RoleAdmin
 	case "shipper":
 		roleType = RoleShipper
 	case "mod":

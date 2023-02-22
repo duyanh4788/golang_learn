@@ -13,7 +13,7 @@ import (
 )
 
 type AuthenticaStore interface {
-	FindUser(ctx context.Context, condition map[string]interface{}, moreInfo ...string) (*usermodel.User, error)
+	FindUserByEmail(ctx context.Context, condition map[string]interface{}, moreInfo ...string) (*usermodel.User, error)
 }
 
 func ErrWrongAuthHeader(err error) *common.AppError {
@@ -51,7 +51,7 @@ func RequireAuth(appCtx component.AppContext) func(c *gin.Context) {
 			panic(err)
 		}
 
-		user, err := store.FindUser(c.Request.Context(), map[string]interface{}{"id": payload.UserId})
+		user, err := store.FindUserByEmail(c.Request.Context(), map[string]interface{}{"id": payload.UserId})
 
 		if err != nil {
 			panic(err)

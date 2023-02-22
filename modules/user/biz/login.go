@@ -8,7 +8,7 @@ import (
 )
 
 type LoginStorage interface {
-	FindUser(ctx context.Context, condition map[string]interface{}, moreInfo ...string) (*usermodel.User, error)
+	FindUserByEmail(ctx context.Context, condition map[string]interface{}, moreInfo ...string) (*usermodel.User, error)
 }
 
 type LoginBiz struct {
@@ -28,7 +28,7 @@ func NewLoginBiz(storeUser LoginStorage, toKenProvider tokenprovider.Provider, h
 }
 
 func (biz *LoginBiz) Login(ctx context.Context, data *usermodel.UserLogin) (*tokenprovider.Token, error) {
-	user, err := biz.storeUser.FindUser(ctx, map[string]interface{}{"email": data.Email})
+	user, err := biz.storeUser.FindUserByEmail(ctx, map[string]interface{}{"email": data.Email})
 
 	if err != nil {
 		return nil, usermodel.ErrEmailOrPassWordInvalid

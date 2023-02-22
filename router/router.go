@@ -5,6 +5,7 @@ import (
 	"golang_01/component"
 	"golang_01/component/uploadprovider"
 	"golang_01/middleware"
+	adminservice "golang_01/router/admin"
 	"golang_01/router/restaurant"
 	"golang_01/router/uploadaws"
 	userservice "golang_01/router/user"
@@ -30,5 +31,10 @@ func MainServices(db *gorm.DB, upProvider uploadprovider.UploadProvider, secretK
 	if err := userservice.UserService(appCtx, v1); err != nil {
 		panic(err)
 	}
+
+	if err := adminservice.AdminService(appCtx, v1); err != nil {
+		panic(err)
+	}
+
 	return router.Run(":3010")
 }
