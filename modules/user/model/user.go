@@ -87,6 +87,15 @@ func (UserUpdatePassWord) TableName() string {
 	return User{}.TableName()
 }
 
+type UserUpdateStatus struct {
+	Status int `json:"status" gorm:"status;"`
+	UserId int `json:"userId" gorm:"user_id;"`
+}
+
+func (UserUpdateStatus) TableName() string {
+	return User{}.TableName()
+}
+
 var (
 	ErrEmailOrPassWordInvalid = common.NewCustomError(
 		errors.New("email or password invalid"),
@@ -105,6 +114,11 @@ var (
 	)
 	ErrMathPassWrong = common.NewCustomError(
 		errors.New("you password not match"),
+		"you password not match",
+		"ErrPassNotMatch",
+	)
+	ErrUpdateStatus = common.NewCustomError(
+		errors.New("you can not update your status"),
 		"you password not match",
 		"ErrPassNotMatch",
 	)

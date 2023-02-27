@@ -48,6 +48,15 @@ func (RestaurantCreate) TableName() string {
 	return Restaurants{}.TableName()
 }
 
+type UpdateStatusRestaurant struct {
+	Status       int `json:"status" gorm:"status;"`
+	RestaurantId int `json:"restaurantId" gorm:"restaurant_id;"`
+}
+
+func (UpdateStatusRestaurant) TableName() string {
+	return Restaurants{}.TableName()
+}
+
 func (res *RestaurantCreate) Validate() error {
 	res.Name = strings.TrimSpace(res.Name)
 	res.Addr = strings.TrimSpace(res.Addr)

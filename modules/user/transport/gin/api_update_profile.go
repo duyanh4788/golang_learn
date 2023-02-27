@@ -20,10 +20,6 @@ func UpdateProfile(appContext component.AppContext) gin.HandlerFunc {
 
 		requester := c.MustGet(common.CurrentUser).(common.Requester)
 
-		if int(requester.GetStatus()) == 0 {
-			panic(common.ErrDisableStatus(usermodel.EntityName, string(requester.GetEmail()), nil))
-		}
-
 		store := userstore.NewSqlStore(appContext.GetMainDBConnect())
 		biz := userbiz.NewUpdateProfileBiz(store)
 

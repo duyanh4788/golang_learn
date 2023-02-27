@@ -7,7 +7,8 @@ const (
 )
 
 const (
-	CurrentUser = "user"
+	CurrentUser       = "user"
+	CurrentRestaurant = "restaurants"
 )
 
 const (

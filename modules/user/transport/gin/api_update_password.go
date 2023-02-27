@@ -22,10 +22,6 @@ func UpdatePassWord(appContext component.AppContext) gin.HandlerFunc {
 
 		user := c.MustGet(common.CurrentUser).(*usermodel.User)
 
-		if user.Status == 0 {
-			panic(common.ErrDisableStatus(usermodel.EntityName, user.Email, nil))
-		}
-
 		tokenProvider := jwt.NewTokenJwtProvider(appContext.SecretKey())
 		md5 := hasher.NewMd5Hash()
 

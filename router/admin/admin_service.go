@@ -11,6 +11,8 @@ func AdminService(appCtx component.AppContext, router *gin.RouterGroup) error {
 	admin := router.Group("/admin", middleware.RequireAuth(appCtx), middleware.RequireRole(appCtx, "admin"))
 	{
 		admin.GET("/list-user", admingin.GetListUsersByAdmin(appCtx))
+		admin.PUT("/update-status-user", admingin.UpdateStatusUserByAdmin(appCtx))
+		admin.PUT("/update-status-restaurant", admingin.UpdateStatusRestaurantByAdmin(appCtx))
 	}
 
 	return nil
