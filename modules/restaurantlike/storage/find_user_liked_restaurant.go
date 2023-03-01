@@ -6,7 +6,7 @@ import (
 	"golang_01/modules/restaurantlike/model"
 )
 
-func (sql *sqlStore) FindUserLikeRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) (*restaurantlikemodel.RestaurantLike, error) {
+func (sql *sqlStore) FindUserLikedRestaurant(ctx context.Context, data *restaurantlikemodel.RestaurantLike) (*restaurantlikemodel.RestaurantLike, error) {
 
 	var restaurantLike restaurantlikemodel.RestaurantLike
 

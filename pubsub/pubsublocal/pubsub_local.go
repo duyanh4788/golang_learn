@@ -26,7 +26,6 @@ func NewPubSub() *localPubSub {
 		mapChannel:   make(map[pubsub.Topic][]chan *pubsub.Message),
 		locker:       new(sync.RWMutex),
 	}
-
 	pb.run()
 
 	return pb
@@ -38,7 +37,7 @@ func (lps *localPubSub) Publish(ctx context.Context, topic pubsub.Topic, data *p
 	go func() {
 		defer common.Recover()
 		lps.messageQueue <- data
-		log.Println("New event published", data.String())
+		log.Println("New event published", data.String(), "data", data.Data())
 	}()
 
 	return nil

@@ -7,7 +7,7 @@ import (
 )
 
 type ListUserLikeRestaurantStore interface {
-	GetUserLikeRestaurant(
+	GetUserLikedRestaurant(
 		ctx context.Context,
 		condition map[string]interface{},
 		filter *restaurantlikemodel.Filter,
@@ -20,16 +20,16 @@ type ListUserLikeRestaurantBiz struct {
 	store ListUserLikeRestaurantStore
 }
 
-func NewListUserLikeRestaurantBiz(store ListUserLikeRestaurantStore) *ListUserLikeRestaurantBiz {
+func NewListUserLikedRestaurantBiz(store ListUserLikeRestaurantStore) *ListUserLikeRestaurantBiz {
 	return &ListUserLikeRestaurantBiz{store: store}
 }
 
-func (biz *ListUserLikeRestaurantBiz) ListUserLikeRestaurant(
+func (biz *ListUserLikeRestaurantBiz) ListUserLikedRestaurant(
 	ctx context.Context,
 	filter *restaurantlikemodel.Filter,
 	paging *common.Paging,
 ) ([]common.SimpleUser, error) {
-	users, err := biz.store.GetUserLikeRestaurant(ctx, nil, filter, paging)
+	users, err := biz.store.GetUserLikedRestaurant(ctx, nil, filter, paging)
 
 	if err != nil {
 		return nil, common.ErrCannotGetListEntity(restaurantlikemodel.EntityName, err)

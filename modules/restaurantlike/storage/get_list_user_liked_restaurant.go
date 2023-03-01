@@ -34,7 +34,7 @@ func (sql sqlStore) GetRestaurantLikes(ctx context.Context, ids []int) (map[int]
 	return result, nil
 }
 
-func (sql sqlStore) GetUserLikeRestaurant(
+func (sql sqlStore) GetUserLikedRestaurant(
 	ctx context.Context,
 	conditions map[string]interface{},
 	filter *restaurantlikemodel.Filter,

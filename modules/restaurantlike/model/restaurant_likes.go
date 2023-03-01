@@ -23,3 +23,7 @@ type RestaurantLike struct {
 func (RestaurantLike) TableName() string {
 	return "restaurant_likes"
 }
+
+func (like *RestaurantLike) GetRestaurantId() int {
+	return like.RestaurantId
+}

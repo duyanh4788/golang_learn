@@ -7,12 +7,12 @@ import (
 	"golang_01/modules/restaurant/biz"
 	"golang_01/modules/restaurant/storage"
 	"golang_01/modules/restaurantlike/biz"
-	restaurantlikemodel "golang_01/modules/restaurantlike/model"
+	"golang_01/modules/restaurantlike/model"
 	"golang_01/modules/restaurantlike/storage"
 	"net/http"
 )
 
-func UserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
+func UserLikedRestaurant(appContext component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		uid, err := common.FromBase58(c.Param("restaurant_id"))
 
@@ -37,7 +37,7 @@ func UserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		}
 
 		store := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantlikebiz.NewUserLikedRestaurantBiz(store, restaurantStore)
+		biz := restaurantlikebiz.NewUserLikedRestaurantBiz(store, appContext.GetPubSub())
 
 		mesage, err := biz.UserLikedRestaurant(c.Request.Context(), &data)
 

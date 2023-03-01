@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func ListUserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
+func ListUserLikedRestaurant(appContext component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		uid, err := common.FromBase58(c.Param("restaurant_id"))
 
@@ -27,9 +27,9 @@ func ListUserLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		paging.Fulfill()
 
 		store := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantlikebiz.NewListUserLikeRestaurantBiz(store)
+		biz := restaurantlikebiz.NewListUserLikedRestaurantBiz(store)
 
-		result, err := biz.ListUserLikeRestaurant(c.Request.Context(), &filter, &paging)
+		result, err := biz.ListUserLikedRestaurant(c.Request.Context(), &filter, &paging)
 
 		if err != nil {
 			panic(err)

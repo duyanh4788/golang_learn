@@ -12,7 +12,7 @@ import (
 	"net/http"
 )
 
-func UserUnLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
+func UserUnLikedRestaurant(appContext component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		uid, err := common.FromBase58(c.Param("restaurant_id"))
 
@@ -37,7 +37,7 @@ func UserUnLikeRestaurant(appContext component.AppContext) gin.HandlerFunc {
 		}
 
 		store := restaurantlikestorage.NewSqlStore(appContext.GetMainDBConnect())
-		biz := restaurantlikebiz.NewUserUnLikedRestaurantBiz(store, restaurantStore)
+		biz := restaurantlikebiz.NewUserUnLikedRestaurantBiz(store, appContext.GetPubSub())
 
 		mesage, err := biz.UserUnLikedRestaurant(c.Request.Context(), &data)
 
