@@ -12,11 +12,15 @@ import (
 	userservice "golang_01/router/user"
 	"golang_01/subscriber"
 	"gorm.io/gorm"
+	"log"
 )
 
 func MainServices(db *gorm.DB, upProvider uploadprovider.UploadProvider, secretKey string) error {
 	appCtx := component.NewAppContext(db, upProvider, secretKey, pubsublocal.NewPubSub())
-	subscriber.Setup(appCtx)
+	//subscriber.Setup(appCtx)
+	if err := subscriber.NewEngine(appCtx).Start(); err != nil {
+		log.Fatal(err)
+	}
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"12.4.27.15"})
 	router.Use(middleware.Recover(appCtx))

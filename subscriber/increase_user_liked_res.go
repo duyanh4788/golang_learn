@@ -5,6 +5,7 @@ import (
 	"golang_01/common"
 	"golang_01/component"
 	"golang_01/modules/restaurant/storage"
+	"golang_01/pubsub"
 )
 
 type HasRestaurantId interface {
@@ -24,4 +25,15 @@ func IncreaseUserLikedRestaurant(appContext component.AppContext, ctx context.Co
 			_ = store.IncreaseLikeCount(ctx, likeData.GetRestaurantId())
 		}
 	}()
+}
+
+func RunIncreaseUserLikedRestaurant(appCtx component.AppContext) consumerJob {
+	return consumerJob{
+		Title: "User liked count Restaurant",
+		Hdl: func(ctx context.Context, message *pubsub.Message) error {
+			store := restaurantstorage.NewSqlStore(appCtx.GetMainDBConnect())
+			likeData := message.Data().(HasRestaurantId)
+			return store.IncreaseLikeCount(ctx, likeData.GetRestaurantId())
+		},
+	}
 }
